@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WEH8MOLD - Mold Testing & Protocol Services</title>
+  <style>
+    /* ===== PALETTE MUY OSCURA Y AMIGABLE ===== */
+    :root {
+      --primary: #3d6b14;       /* Verde oliva muy oscuro, oscuro pero amigable a la vista */
+      --primary-dark: #2d5011;
+      --secondary: #f8f9fa;     /* Blanco muy limpio */
+      --accent: #a3e635;        /* Sutil highlight */
+      --muted: #6c757d;
+      --white: #ffffff;
+      --text: #1e293b;
+      --link-color: #f8f9fa;    /* Links SEMPRE visibles - blanco roto */
+      --link-hover: #e8e8e8;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--white); color: var(--text); line-height: 1.6; }
+    
+    /* ===== HEADER: LOGO GRANDE + LINKS SIEMPRE VISIBLES ===== */
+    header {
+      background: var(--primary);
+      color: var(--white);
+      padding: 45px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 35px rgba(61,107,20,0.35);
+    }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    /* --- LOGO 120PX GRANDE Y LEGIBLE --- */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--white);
+    }
+    
+    /* Logo: 120px = GRANDE Y LEGIBLE */
+    .logo-img {
+      width: 120px;             /* Alto 120px = grande y legible claramente */
+      height: auto;
+      flex-shrink: 0;
+      border: 4px solid rgba(255,255,255,0.5);
+      border-radius: 12px;
+      padding: 4px;
+    }
+    
+    .logo-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    /* SIN nombre - solo el logo */
+    .logo-text { display: none; }
+    
+    /* --- LINKS SEMPRE VISIBLES (subrayado permanente) --- */
+    .nav-links { display: flex; gap: 35px; list-style: none; }
+    .nav-links a {
+      color: var(--link-color);
+      text-decoration: underline;              /* SIEMPRE visible - subrayado permanente */
+      text-decoration-color: var(--link-color);/* Color del subrayado siempre visible */
+      text-decoration-skip-ink: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--link-hover);
+    }
+    
+    @media (max-width: 768px) { .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary); padding: 35px; flex-direction: column; align-items: center; } .nav-links.active { display: flex; } .menu-btn { display: block; } .hero h1 { font-size: 28px; } }
+    
+    /* ===== HERO ===== */
+    .hero { padding: 160px 20px 20px; text-align: center; background: var(--secondary); margin-top: 80px; }
+    .hero h1 { font-size: 46px; margin-bottom: 25px; color: var(--text); }
+    .hero p { font-size: 18px; color: var(--muted); max-width: 700px; margin: 0 auto 25px; }
+    
+    .btn { display: inline-block; padding: 20px 45px; background: var(--accent); color: var(--primary); text-decoration: none; border-radius: 55px; font-weight: 700; font-size: 16px; transition: 0.3s; border: 3px solid var(--accent); }
+    .btn:hover { background: transparent; color: var(--white); }
+    .btn-secondary { background: transparent; color: var(--primary); padding: 20px 45px; border: 3px solid var(--primary); }
+    .btn-secondary:hover { background: var(--primary); color: var(--white); }
+    
+    /* ===== GALERÍA DE FOTOS (SECCIÓN 2 - DESPUÉS DE HERO) ===== */
+    .gallery { padding: 40px 20px; background: var(--secondary); margin: 20px 0 30px; }
+    .gallery h2 { text-align: center; margin-bottom: 20px; font-size: 30px; color: var(--primary); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+    .gallery-card {
+      background: var(--white);
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      transition: 0.2s;
+    }
+    .gallery-card:hover { transform: translateY(-2px); box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    /* ===== SERVICES ===== */
+    .services { padding: 80px 20px; background: var(--white); }
+    .services h2 { text-align: center; margin-bottom: 40px; font-size: 36px; color: var(--primary); position: relative; }
+    .services h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 55px; height: 4px; background: var(--accent); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 45px; }
+    .service-card { padding: 35px 30px; border-radius: 14px; background: var(--white); transition: 0.3s; border: 1px solid #e2e8f0; }
+    .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(61,107,21,0.15); }
+    .service-card:hover::before { width: 100%; }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--accent); width: 0; transition: width 0.3s; }
+    .service-card i { width: 65px; height: 65px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; font-size: 28px; color: var(--white); }
+    .service-card h3 { margin-bottom: 12px; font-size: 22px; color: var(--primary); }
+    .service-card p { color: var(--muted); font-size: 15px; }
+    
+    /* ===== WHY ===== */
+    .why { padding: 80px 20px; background: var(--secondary); }
+    .why h2 { text-align: center; margin-bottom: 40px; font-size: 36px; color: var(--primary); }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 35px; }
+    .why-card { padding: 30px 25px; background: var(--white); border-radius: 12px; text-align: center; transition: 0.3s; }
+    .why-card:hover { background: var(--primary); color: var(--white); }
+    .why-card:hover h3 { color: var(--white); }
+    .why-card i { width: 60px; height: 60px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; font-size: 28px; color: var(--white); }
+    .why-card h3 { margin-bottom: 10px; transition: 0.3s; }
+    .why-card p { color: rgba(255,255,255,0.8); font-size: 15px; }
+    
+    /* ===== AREAS ===== */
+    .areas { padding: 80px 20px; background: var(--primary); color: var(--white); }
+    .areas h2 { text-align: center; margin-bottom: 40px; font-size: 36px; }
+    .area-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .area-item { background: rgba(255,255,255,0.12); padding: 22px 28px; border-radius: 10px; min-width: 170px; backdrop-filter: blur(8px); transition: 0.3s; }
+    .area-item:hover { background: rgba(255,255,255,0.18); }
+    .area-item i { width: 40px; height: 40px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 18px; color: var(--primary); }
+    
+    /* ===== CTA ===== */
+    .cta { padding: 80px 20px; background: var(--primary); color: var(--white); text-align: center; }
+    .cta h2 { font-size: 42px; margin-bottom: 20px; }
+    .cta p { font-size: 18px; opacity: 0.8; max-width: 600px; margin: 0 auto 25px; }
+    .cta .btn { margin: 8px 5px; padding: 15px 30px; font-size: 15px; }
+    
+    /* ===== FOOTER ===== */
+    footer { padding: 55px 20px 20px; background: #0f1720; color: #94a3b8; }
+    .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 45px; margin-bottom: 50px; }
+    .footer-section h4 { color: var(--white); margin-bottom: 25px; font-size: 20px; }
+    .footer-section ul { list-style: none; }
+    .footer-section li { margin: 10px 0; }
+    .footer-section a { color: #c5c6c9; text-decoration: none; font-size: 15px; transition: 0.3s; }
+    .footer-section a:hover { color: var(--accent); }
+    .footer-bottom { padding-top: 20px; border-top: 2px solid #1a2510; font-size: 12px; text-align: center; }
+    
+    @media (max-width: 768px) { .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary); padding: 40px; flex-direction: column; align-items: center; } .nav-links.active { display: flex; } .menu-btn { display: block; } .hero h1 { font-size: 30px; } .area-item { padding: 20px 25px; } }
+    
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 20px; } }
+    
+    /* ===== ANIMATIONS ===== */
+    .fade-in { opacity: 0; transform: translateY(25px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="#" class="logo">
+        <img src="public/logo/weh8mold-logo.png" alt="Logo WEH8MOLD" class="logo-img">
+        <!-- SIN nombre - solo el logo -->
+      </ul>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Inicio</a></li>
+        <li><a href="#services">Servicios</a></li>
+        <li><a href="#about">Nosotros</a></li>
+        <li><a href="#areas">Áreas</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+      <button class="menu-btn" aria-label="Menú" onclick="toggleMenu()">☰</button>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="container">
+      <h1>Professional Mold Testing & Protocol Services</h1>
+      <p>Comprehensive mold testing, inspection, sampling and protocol development services for residential and commercial properties in Orlando, Florida.</p>
+      <a href="#contact" class="btn">Solicitar Inspección</a>
+      <a href="#about" class="btn-secondary">Acerca de WEH8MOLD</a>
+    </div>
+  </section>
+
+  <!-- --- GALERÍA DE FOTOS EN SECCIÓN 2 (DESPUÉS DE HERO) --- -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <h2>Gallery</h2>
+      <p>Photos del proyecto</p>
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <img src="Photos/foto1.jpg" alt="Foto del proyecto WEH8MOLD">
+        </div>
+        <div class="gallery-card">
+          <img src="Photos/foto2.jpg" alt="Foto del proyecto WEH8MOLD">
+        </div>
+        <div class="gallery-card">
+          <img src="Photos/foto3.jpg" alt="Foto del proyecto WEH8MOLD">
+        </div>
+        <div class="gallery-card">
+          <img src="Photos/foto4.jpg" alt="Foto del proyecto WEH8MOLD">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="container">
+      <h2>Our Mold Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <i>🔬</i>
+          <h3>Mold Testing</h3>
+          <p>Professional mold testing services to detect mold presence and concentration levels in residential and commercial properties throughout Orlando, FL.</p>
+        </div>
+        <div class="service-card">
+          <i>👁️</i>
+          <h3>Mold Inspection</h3>
+          <p>Comprehensive mold inspection services to identify mold growth, water damage, and moisture sources in properties throughout Orlando and surrounding areas.</p>
+        </div>
+        <div class="service-card">
+          <i>🧪</i>
+          <h3>Mold Sampling</h3>
+          <p>Targeted mold sampling services to collect air and surface samples for laboratory analysis, determining mold types and concentrations.</p>
+        </div>
+        <div class="service-card">
+          <i>📋</i>
+          <h3>Mold Protocols</h3>
+          <p>Professional mold remediation protocol development based on testing and inspection findings, providing clear guidelines for safe and effective mold removal.</p>
+        </div>
+        <div class="service-card">
+          <i>🏗️</i>
+          <h3>Remediation Protocol</h3>
+          <p>Custom mold remediation protocol development tailored to each property's specific conditions, ensuring effective mold removal and prevention of recurrence.</p>
+        </div>
+        <div class="service-card">
+          <i>📄</i>
+          <h3>Documentation</h3>
+          <p>Professional mold-related documentation and assessment services for real estate transactions, insurance claims, and legal proceedings.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why" id="about">
+    <div class="container">
+      <h2>Why Choose WEH8MOLD</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <i>🔬</i>
+          <h3>Professional Testing</h3>
+          <p>Evidence-based mold assessment using validated sampling methods and laboratory analysis.</p>
+        </div>
+        <div class="why-card">
+          <i>📄</i>
+          <h3>Detailed Documentation</h3>
+          <p>Comprehensive reports with clear findings and professional recommendations.</p>
+        </div>
+        <div class="why-card">
+          <i>🎯</i>
+          <h3>Clear Protocols</h3>
+          <p>Well-defined remediation protocols based on industry standards.</p>
+        </div>
+        <div class="why-card">
+          <i>🧪</i>
+          <h3>Evidence-Based</h3>
+          <p>Results you can trust for informed decision-making.</p>
+        </div>
+        <div class="why-card">
+          <i>🏠</i>
+          <h3>Residential & Commercial</h3>
+          <p>Services tailored to house types and property types.</p>
+        </div>
+        <div class="why-card">
+          <i>📍</i>
+          <h3>Local Service</h3>
+          <p>Orlando-based team with knowledge of local building types and conditions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="areas" id="areas">
+    <div class="container">
+      <h2>Service Areas</h2>
+      <p>WEH8MOLD serves Orlando, Florida and surrounding communities.</p>
+      <div class="area-list">
+        <div class="area-item">🟢 Orlando FL</div>
+        <div class="area-item">🟢 Winter Park FL</div>
+        <div class="area-item">🟢 Kissimmee FL</div>
+        <div class="area-item">🟢 Lake Mary FL</div>
+        <div class="area-item">🟢 Altamonte Springs FL</div>
+        <div class="area-item">🟢 Sanford FL</div>
+        <div class="area-item">🟢 Apopka FL</div>
+        <div class="area-item">🟢 Winter Garden FL</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="container">
+      <h2>Contact WEH8MOLD</h2>
+      <p>To schedule a mold inspection or request service information, please contact us.</p>
+      <div style="margin: 30px 0; display: flex; justify-content: center; gap: 15px;">
+        <a href="mailto:info@weh8mold.com" class="btn">Enviar Email</a>
+        <a href="tel:(407)5550123" class="btn">Llamar</a>
+        <a href="#contact" class="btn-secondary">More Info</a>
+      </div>
+      <p style="margin: 20px 0 0; opacity: 0.8; max-width: 500px; margin: 0 auto auto;">WEH8MOLD will respond within 1-2 business days to discuss your mold testing and protocol requirements.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>WEH8MOLD</h4>
+          <p>Professional mold testing, inspection, sampling and protocol development services for Orlando, Florida and surrounding areas.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="#services" class="footer-link">Mold Testing</a></li>
+            <li><a href="#services" class="footer-link">Mold Inspection</a></li>
+            <li><a href="#services" class="footer-link">Mold Sampling</a></li>
+            <li><a href="#services" class="footer-link">Mold Protocols</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Service Areas</h4>
+          <ul class="footer-links">
+            <li><a href="#areas" class="footer-link">Orlando, FL</a></li>
+            <li><a href="#areas" class="footer-link">Winter Park, FL</a></li>
+            <li><a href="#areas" class="footer-link">Kissimmee, FL</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:info@weh8mold.com" class="footer-link">info@weh8mold.com</a></li>
+            <li><a href="tel:(407)5550123" class="footer-link">(407) 555-0123</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2024 WEH8MOLD. All rights reserved. | Professional mold testing and protocol services for Orlando, Florida
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('active');
+    }
+    
+    const header = document.querySelector('header');
+    if (header) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          header.style.boxShadow = '0 8px 35px rgba(61,107,21,0.15)';
+        } else {
+          header.style.boxShadow = '0 8px 35px rgba(61,107,21,0.1)';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
